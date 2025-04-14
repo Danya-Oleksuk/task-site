@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+{% endblock %}
+
+{% block content %}
+            <div class="container">
+            <h2>Добро пожаловать!</h2>
+
+            <p>Этот сайт предназначен для управления задачами: вы можете добавлять новые задачи, удалять их и изменять их статус.</p>
+            <a href="{% url 'user_app:user_login' %}" class="btn">Войти</a>
+        </div>
+{% endblock %}

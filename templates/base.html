@@ -1,1 +1,32 @@
-<h1>Base html is working!</h1>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ title }}</title>
+
+    {% block style %}
+    {% endblock %}
+</head>
+<body>
+
+     <header class="header-footer">
+        <div class="container">
+            <h1>Task Manager</h1>
+        </div>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+     <footer class="header-footer">
+        <div class="container">
+            <p>&copy; 2025 Task Manager. Все права защищены.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
