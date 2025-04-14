@@ -1,6 +1,9 @@
-from django.http import HttpResponse
 from django.urls import path
 
+from .views import user_tasks
+
+
+app_name = 'task_app'
 urlpatterns = [
-    path('tasks/', lambda request: HttpResponse('Good tasks'))
+    path('user/tasks/', user_tasks, name='user_tasks'),
 ]

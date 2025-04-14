@@ -10,6 +10,7 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
+    position: relative;
 }
 
 .header-footer {
@@ -54,7 +55,7 @@ main p {
 }
 
 .btn {
-    background-color: #008B8B;
+    background-color: #20B2AA;
     color: white;
     padding: 15px 30px;
     text-decoration: none;
@@ -63,7 +64,7 @@ main p {
 }
 
 .btn:hover {
-    background-color: #20B2AA;
+    background-color: #008B8B;
 }
 
 footer {
@@ -72,4 +73,29 @@ footer {
     color: white;
     text-align: center;
     font-size: 0.9em;
+}
+
+.exit-user {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: #20B2AA;
+    color: white;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.exit-user:hover {
+    background-color: #008080;
+    transform: translateY(-3px);
+}
+
+.exit-user:active {
+    background-color: #008080;
+    transform: translateY(1px);
 }

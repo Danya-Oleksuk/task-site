@@ -6,11 +6,20 @@
     <link rel="stylesheet" href="{% static 'style.css' %}" />
 {% endblock %}
 
-{% block content %}
-            <div class="container">
-            <h2>Добро пожаловать!</h2>
 
+
+{% block content %}
+        <div class="container">
+            <h2>Добро пожаловать!</h2>
             <p>Этот сайт предназначен для управления задачами: вы можете добавлять новые задачи, удалять их и изменять их статус.</p>
-            <a href="{% url 'user_app:user_login' %}" class="btn">Войти</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'task_app:user_tasks' %}" class="btn">Задачи</a>
+                        <form method="POST" action="{% url 'user_app:user_logout' %}">
+                                    {% csrf_token %}
+                                    <button class="exit-user" type="submit">Выйти из аккаунта</button>
+                                </form>
+                {% else %}
+                     <a href="{% url 'user_app:user_login' %}" class="btn">Войти</a>
+                {% endif %}
         </div>
 {% endblock %}

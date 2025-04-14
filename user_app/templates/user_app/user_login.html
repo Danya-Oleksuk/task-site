@@ -8,22 +8,26 @@
 
 {% block content %}
     <div class="form-container">
+        <a href="{% url 'user_app:main_page' %}" class="exit-user">Назад</a>
+        {% if not user.is_authenticated %}
         <h2>Вход на сайт</h2>
-
-        <form method="post">
-            {% csrf_token %}
-            {% if error_message %}
-                    <p style="color: red;">{{ error_message }}</p>
-            {% endif %}
-            <div class="form-group">
-                <label for="{{ form.username.id_for_label }}">Логин</label>
-                {{ form.username }}
-            </div>
-            <div class="form-group">
-                <label for="{{ form.password.id_for_label }}">Пароль</label>
-                {{ form.password }}
-            </div>
-            <button type="submit" class="form-submit">Войти</button>
-        </form>
+            <form method="post">
+                {% csrf_token %}
+                {% if error_message %}
+                        <p style="color: red;">{{ error_message }}</p>
+                {% endif %}
+                <div class="form-group">
+                    <label for="{{ form.username.id_for_label }}">Логин</label>
+                    {{ form.username }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.password.id_for_label }}">Пароль</label>
+                    {{ form.password }}
+                </div>
+                <button type="submit" class="form-submit">Войти</button>
+            </form>
+        {% else %}
+        <h2>Вы уже залогинены!</h2>
+        {% endif %}
     </div>
 {% endblock %}

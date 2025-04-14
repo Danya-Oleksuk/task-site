@@ -1,6 +1,11 @@
 from asgiref.sync import sync_to_async
+from django.contrib.auth import login
+from django.contrib.auth.views import LogoutView
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.views.generic import TemplateView
+from django.contrib.auth.models import User
 
 from .forms import LoginForm
 
@@ -28,10 +33,15 @@ async def user_login(request):
                 data = await get_user_profile(username)
 
                 if data[0] == username and data[1] == password:
-                    await sync_to_async(request.session.__setitem__)('user_id', username)
+                    user = await User.objects.filter(username=username).afirst()
+
+                    if not user:
+                        user = User(username=username)
+                        user.set_password(password)
+                        await sync_to_async(user.save)()
+
+                    await sync_to_async(login)(request, user)
                     return redirect('/user/tasks')
-                else:
-                    error_message = 'Пароль не верен'
             else:
                 error_message = 'Логин не существует'
     else:
@@ -39,9 +49,5 @@ async def user_login(request):
     return render(request, 'user_app/user_login.html', {'form': form,
                                                                             'error_message': error_message})
 
-def user_tasks(request):
-    if not request.session.get('user_id'):
-        return redirect('/user/login')
-
-    data = ''
-    return render(request, 'user_app/user_tasks.html', context={"data":data})
+class LogOutView(LogoutView):
+    next_page = reverse_lazy('user_app:main_page')
