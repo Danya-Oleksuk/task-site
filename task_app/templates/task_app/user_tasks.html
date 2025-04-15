@@ -1,2 +1,48 @@
-<h1>test</h1>
-{{ data }}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <link rel="stylesheet" href="{% static 'task_list_styles.css' %}" />
+{% endblock %}
+
+{% block content %}
+<div class="task-container">
+    <a href="{% url 'user_app:main_page' %}" class="exit-user">Назад</a>
+    <h2>Мои задачи</h2>
+
+    <div class="task-list">
+        {% for task in tasks %}
+        <div class="task-item">
+            <span class="task-title">{{ task.title }}</span>
+            <span class="task-status">{{ task.status }}</span>
+
+            <div class="task-actions">
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <button class="action-btn edit" title="Редактировать">&#9998;</button>
+                </form>
+
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <button class="action-btn delete" title="Удалить">&#128465;</button>
+                </form>
+
+                <form method="post" action=action="">
+                    {% csrf_token %}
+                    <button class="action-btn status" title="Изменить статус">
+                        {% if task.status == 'выполнено' %}🔄{% else %}✅{% endif %}
+                    </button>
+                </form>
+            </div>
+        </div>
+        {% empty %}
+            <p>Пока задач нет.</p>
+        {% endfor %}
+    </div>
+
+    <div class="create-task-wrapper">
+        <a href="action=" class="btn create-task-btn">Создать задачу</a>
+    </div>
+</div>
+{% endblock %}

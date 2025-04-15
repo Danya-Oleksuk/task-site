@@ -1,7 +1,6 @@
 from asgiref.sync import sync_to_async
 from django.contrib.auth import login
 from django.contrib.auth.views import LogoutView
-from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView

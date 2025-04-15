@@ -8,7 +8,6 @@
 
 {% block content %}
     <div class="form-container">
-        <a href="{% url 'user_app:main_page' %}" class="exit-user">Назад</a>
         {% if not user.is_authenticated %}
         <h2>Вход на сайт</h2>
             <form method="post">
