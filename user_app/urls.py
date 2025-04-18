@@ -1,7 +1,6 @@
 from django.urls import path
 
-from .views import MainPageView, user_login, LogOutView
-
+from .views import LogOutView, MainPageView, user_login
 
 app_name = 'user_app'
 urlpatterns = [

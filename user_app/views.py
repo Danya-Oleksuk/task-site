@@ -1,14 +1,14 @@
 from asgiref.sync import sync_to_async
 from django.contrib.auth import login
+from django.contrib.auth.models import User
 from django.contrib.auth.views import LogoutView
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
-from django.contrib.auth.models import User
 
+from .database import get_user_profile, is_user_in_database
 from .forms import LoginForm
 
-from .database import is_user_in_database, get_user_profile
 
 class MainPageView(TemplateView):
     template_name = 'main_page.html'
