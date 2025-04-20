@@ -5,7 +5,7 @@ from django.shortcuts import render
 from .mongo import count_tasks, create_mongo_database, get_tasks
 
 
-@login_required(login_url="/user/login")
+@login_required(login_url="/user/login", redirect_field_name=None)
 def user_tasks(request):
     create_mongo_database()
 
