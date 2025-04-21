@@ -18,32 +18,35 @@ class MainPageView(TemplateView):
         context["title"] = "Task manager"
         return context
 
-
 async def user_login(request):
     error_message = None
 
     if request.method == "POST":
         form = LoginForm(request.POST)
+        try:
+            if form.is_valid():
+                username = int(form.cleaned_data["username"])
+                password = form.cleaned_data["password"]
 
-        if form.is_valid():
-            username = int(form.cleaned_data["username"])
-            password = form.cleaned_data["password"]
+                if await is_user_in_database(username):
+                    data = await get_user_profile(username)
 
-            if await is_user_in_database(username):
-                data = await get_user_profile(username)
+                    if data[0] == username and data[1] == password:
+                        user = await User.objects.filter(username=username).afirst()
 
-                if data[0] == username and data[1] == password:
-                    user = await User.objects.filter(username=username).afirst()
+                        if not user:
+                            user = User(username=username)
+                            user.set_password(password)
+                            await sync_to_async(user.save)()
 
-                    if not user:
-                        user = User(username=username)
-                        user.set_password(password)
-                        await sync_to_async(user.save)()
-
-                    await sync_to_async(login)(request, user)
-                    return redirect("/user/tasks")
-            else:
-                error_message = "Логин не существует"
+                        await sync_to_async(login)(request, user)
+                        return redirect("/user/tasks")
+                    else:
+                        error_message = 'Пароль не верен'
+                else:
+                    error_message = "Логин не существует"
+        except ValueError:
+            error_message = 'Логин не может быть буквами или символами'
     else:
         form = LoginForm()
     return render(
@@ -51,7 +54,6 @@ async def user_login(request):
         "user_app/user_login.html",
         {"form": form, "error_message": error_message},
     )
-
 
 class LogOutView(LogoutView):
     next_page = reverse_lazy("user_app:main_page")
